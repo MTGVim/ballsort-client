@@ -22,8 +22,8 @@ const BallStackList = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  gap: 60px 20px;
-  padding: 80px 40px 40px 40px;
+  gap: 32px 20px;
+  padding: 80px 10px 40px 10px;
   justify-content: center;
 `;
 
@@ -41,6 +41,7 @@ const BallStack = styled.div<{ selected: boolean }>`
   padding: 4px;
   cursor: pointer;
   height: 170px;
+  flex-shrink: 0;
 `;
 
 const BallInKeyframes = keyframes`
