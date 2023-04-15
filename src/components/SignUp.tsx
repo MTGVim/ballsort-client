@@ -6,7 +6,21 @@ import { UserDto } from 'types';
 import customAxios from 'utils/customAxios';
 import { toast } from 'react-hot-toast';
 import useSpinner from 'hooks/useSpinner';
+import LogoPNG from 'assets/logo.png';
+import styled from 'styled-components';
 
+const SignUpFrame = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+const LogoImg = styled.img`
+  width: 200px;
+  display: block;
+`;
 interface IFormInput {
   firstName: String;
   lastName: String;
@@ -44,7 +58,8 @@ const SignUp = () => {
     }
   };
   return (
-    <div>
+    <SignUpFrame>
+      <LogoImg src={LogoPNG}></LogoImg>
       <form onSubmit={handleSubmit(signUp)}>
         <label>Sign Up</label>
         <div>
@@ -80,7 +95,7 @@ const SignUp = () => {
       </form>
       <button onClick={() => navigate(-1)}>뒤로 가기</button>
       <Spinner {...registerSpinner} />
-    </div>
+    </SignUpFrame>
   );
 };
 

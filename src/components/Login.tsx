@@ -6,6 +6,21 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { CommonResponseDto } from 'types';
 import customAxios from 'utils/customAxios';
+import LogoPNG from 'assets/logo.png';
+import styled from 'styled-components';
+
+const LoginFrame = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+const LogoImg = styled.img`
+  width: 200px;
+  display: block;
+`;
 
 interface IFormInput {
   username: String;
@@ -35,7 +50,8 @@ const Login = () => {
     }
   };
   return (
-    <div>
+    <LoginFrame>
+      <LogoImg src={LogoPNG}></LogoImg>
       <label>LogIn</label>
       <form onSubmit={handleSubmit(login)}>
         <div>
@@ -61,7 +77,7 @@ const Login = () => {
         그냥 게임이나 하러 갈래요
       </button>
       <Spinner {...registerSpinner} />
-    </div>
+    </LoginFrame>
   );
 };
 
