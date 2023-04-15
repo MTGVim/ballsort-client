@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { UserDto } from '../types';
+import { UserDto } from 'types';
 
 interface User extends UserDto {}
 

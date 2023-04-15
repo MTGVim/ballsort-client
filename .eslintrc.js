@@ -6,7 +6,10 @@ module.exports = {
   },
   rules: {
     // 상대경로 import 금지
-    'no-relative-import-paths/no-relative-import-paths': ['error'],
+    'no-relative-import-paths/no-relative-import-paths': [
+      'error',
+      { rootDir: 'src' },
+    ],
   },
   settings: {
     'import/parsers': {
