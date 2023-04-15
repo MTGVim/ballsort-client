@@ -77,6 +77,7 @@ const BallSort = () => {
         setStageState(getStage(stageNum));
         setMoveCnt(0);
         setStatgeNum((prev) => prev + 1);
+        localStorage.setItem('clearedStageNum', stageNum.toString());
       }, 3e3);
       return () => {
         clearTimeout(handle);

@@ -47,8 +47,6 @@ export const verifyStage = (
   // 볼이 MaxBallStackLength개 씩 있는지 확인
   if (
     !Array.from({ length: maxBallNumber }).some((_, ballNum) => {
-      const foo =
-        balls.filter((ball) => ball === ballNum).length !== maxBallNumber;
       return balls.filter((ball) => ball === ballNum).length !== maxBallNumber;
     })
   ) {
@@ -114,7 +112,6 @@ export function moveMatchedBalls(
 
 /** 다음 스테이지 생성 */
 export function getStage(stageNum: number) {
-  console.log('foo');
   const totalStackCnt = Math.min(stageNum + 6, 10);
   const emptyStackCnt = 2;
   const ballColorsCnt = totalStackCnt - emptyStackCnt;
