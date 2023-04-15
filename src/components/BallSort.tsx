@@ -4,8 +4,10 @@ import { toast } from 'react-hot-toast';
 import seedrandom from 'seedrandom';
 import {
   BallColors,
-  MaxBallStackLength,
+  getPickableBallIdxs,
+  getStage,
   isStageClear,
+  moveMatchedBalls,
   verifyStage,
 } from 'utils/gameLogic';
 import { Stage } from 'types';
@@ -16,7 +18,7 @@ const BallStackList = styled.div`
   flex-wrap: wrap;
   width: 100%;
   gap: 60px 20px;
-  padding: 40px;
+  padding: 80px 40px 40px 40px;
   justify-content: center;
 `;
 
@@ -54,26 +56,18 @@ const Ball = styled.div<{ ball: number; picked: boolean }>`
     ${({ picked }) => (picked ? BallOutKeyframes : BallInKeyframes)};
 `;
 
-const stage: Stage = [
-  [],
-  [],
-  [1, 2, 3, 0],
-  [2, 3, 1, 0],
-  [1, 1, 2, 3],
-  [2, 0, 0, 3],
-];
-
 const BallSort = () => {
   const [selectedStackIdx, setSelectedStackIdx] = useState<number | null>(null);
-  const [stageState, setStageState] = useState<Stage>(stage);
-
-  useEffect(() => {
-    verifyStage(stage);
-  }, []);
+  const [stageNum, setStatgeNum] = useState<number>(0);
+  const [stageState, setStageState] = useState<Stage>(getStage(stageNum));
 
   useEffect(() => {
     if (isStageClear(stageState)) {
       toast.success('Stage Cleared! 🎉');
+      setTimeout(() => {
+        setStageState(getStage(stageNum));
+        setStatgeNum((prev) => prev + 1);
+      }, 5e3);
     }
   }, [stageState]);
 
@@ -86,13 +80,11 @@ const BallSort = () => {
     // 볼 삽입
     if (selectedStackIdx !== null) {
       const newState: Stage = JSON.parse(JSON.stringify(stageState));
-      const from = newState[selectedStackIdx];
-      const to = newState[targetStackIdx];
-      if (from.length > 0 && to.length < MaxBallStackLength) {
-        to.push(from.pop()!);
+      if (
+        !moveMatchedBalls(newState[selectedStackIdx], newState[targetStackIdx])
+      ) {
+        toast.error('Cannot move to there');
       }
-      newState[selectedStackIdx] = [...from];
-      newState[targetStackIdx] = [...to];
       setStageState([...newState]);
       setSelectedStackIdx(null);
       return;
@@ -105,7 +97,7 @@ const BallSort = () => {
   };
 
   return (
-    <BallStackList>
+    <BallStackList key={stageNum}>
       {stageState.map((ballStack, stackIdx) => {
         const isStackSelected = selectedStackIdx === stackIdx;
         return (
@@ -115,11 +107,15 @@ const BallSort = () => {
             onClick={() => handleStackClick(stackIdx)}
           >
             {ballStack.map((ball, ballIdx) => {
+              const ballTop = ballStack[ballStack.length - 1];
               return (
                 <Ball
                   key={ball.toString() + ballIdx}
                   ball={ball}
-                  picked={ballIdx === ballStack.length - 1 && isStackSelected}
+                  picked={
+                    isStackSelected &&
+                    getPickableBallIdxs(ballStack).includes(ballIdx)
+                  }
                 />
               );
             })}

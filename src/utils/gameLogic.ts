@@ -76,3 +76,79 @@ export function isStageClear(stageState: Stage) {
   }
   return false;
 }
+
+export function moveBall(fromStack: Stage[number], toStack: Stage[number]) {
+  if (toStack.length === MaxBallStackLength || fromStack.length === 0) {
+    return false;
+  }
+  toStack.push(fromStack.pop()!);
+}
+
+export function moveMatchedBalls(
+  fromStack: Stage[number],
+  toStack: Stage[number]
+) {
+  const fromTop =
+    fromStack.length === 0 ? null : fromStack[fromStack.length - 1];
+  const toTop = toStack.length === 0 ? null : toStack[toStack.length - 1];
+
+  const canMove = toTop === null || fromTop === toTop;
+
+  if (!canMove) {
+    return false;
+  }
+  const balls = [];
+  for (let i = fromStack.length - 1; i >= 0; i--) {
+    if (fromStack[i] !== fromTop) {
+      break;
+    }
+    balls.push(fromStack[i]);
+  }
+
+  const moveCnt = Math.min(MaxBallStackLength - toStack.length, balls.length);
+  for (let i = 0; i < moveCnt; i++) {
+    moveBall(fromStack, toStack);
+  }
+  return true;
+}
+
+/** 다음 스테이지 생성 */
+export function getStage(stageNum: number) {
+  console.log('foo');
+  const totalStackCnt = Math.min(stageNum + 6, 10);
+  const emptyStackCnt = 2;
+  const ballColorsCnt = totalStackCnt - emptyStackCnt;
+
+  const stacks = [
+    [],
+    [],
+    ...Array.from({ length: ballColorsCnt }).map((_, ballColorIdx) =>
+      Array.from({ length: MaxBallStackLength }).map((_) => ballColorIdx)
+    ),
+  ];
+
+  const shuffle = () => {
+    for (let i = 0; i < 100; ++i) {
+      const fromIdx = Math.floor(Math.random() * stacks.length);
+      const toIdx = Math.floor(Math.random() * stacks.length);
+      moveBall(stacks[fromIdx], stacks[toIdx]);
+    }
+  };
+
+  shuffle();
+
+  return stacks;
+}
+
+/** 스택에서 한번에 집을 수 있는 볼 idx 목록 반환 */
+export function getPickableBallIdxs(ballStack: Stage[number]) {
+  const ballTop = ballStack[ballStack.length - 1];
+  const ballsIdxs = [];
+  for (let i = ballStack.length - 1; i >= 0; --i) {
+    if (ballStack[i] !== ballTop) {
+      break;
+    }
+    ballsIdxs.push(i);
+  }
+  return ballsIdxs;
+}
