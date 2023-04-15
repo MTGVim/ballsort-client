@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# BallSort (client)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [BallSort (client)](#ballsort-client)
+  - [Table of Contents](#table-of-contents)
+  - [About ](#about-)
+  - [Getting Started ](#getting-started-)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
+  - [Usage ](#usage-)
+  - [DEMO](#demo)
 
-In the project directory, you can run:
+## About <a name = "about"></a>
 
-### `yarn start`
+주말에 토이프로젝트로 MERN 스택 개발이 하고싶었는데, 볼 소트 게임에 삘받아서 시작
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+당장 플레이는 가능한 단계이고, 아래의 TodoList를 쳐내면서 개선 할 예정
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [x] MERN 스택 구성
+  - [x] MongoDB
+  - [x] Express
+  - [x] React
+  - [x] Node.js
+- [x] 사용자
+  - [x] 회원가입
+  - [x] 로그인
+  - [ ] JWT
+- [ ] 게임
+  - [x] 핵심 로직
+    - [x] 스테이지 유효성 검사
+    - [x] 애니메이션 & 볼 이동 로직
+    - [x] 승리 조건
+  - [ ] 경쟁요소
+    - [ ] 최대 클리어 스테이지 번호
+    - [ ] 스테이지 별 볼 이동 횟수
+    - [ ] 스테이지 별 클리어 시간
+  - [ ] 절차적 스테이지 생성
+    - [ ] 생성
+    - [ ] 클리어 가능 여부 검증
+    - [ ] 난이도 추론
+    - [ ] 무한모드
+      - [ ] 스테이지 번호 대신 무엇으로 분류할 것인가
+- [ ] demo
 
-### `yarn test`
+## Getting Started <a name = "getting_started"></a>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
-### `yarn build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Wanna use online service? go and see BallSort(Server) repo's README.md
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+node.js (^16)
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installing
 
-### `yarn eject`
+```
+yarn
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+until finished
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage <a name = "usage"></a>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+yarn start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## DEMO
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+WIP

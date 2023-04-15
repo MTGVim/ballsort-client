@@ -57,6 +57,9 @@ const Login = () => {
         <button type="submit">로그인</button>
       </form>
       <button onClick={() => navigate('/signup')}>가입하러 가기</button>
+      <button onClick={() => navigate('/ballSort')}>
+        그냥 게임이나 하러 갈래요
+      </button>
       <Spinner {...registerSpinner} />
     </div>
   );
