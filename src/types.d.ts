@@ -14,3 +14,5 @@ export interface CommonResponseDto {
   result: number;
   message?: string;
 }
+
+export type Stage = number[][];
