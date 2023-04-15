@@ -74,7 +74,7 @@ const BallSort = () => {
     if (isStageClear(stageState)) {
       toast.success('Stage Cleared! 🎉');
       const handle = setTimeout(() => {
-        setStageState(getStage(stageNum));
+        setStageState(getStage(stageNum + 1));
         setMoveCnt(0);
         setStatgeNum((prev) => prev + 1);
         localStorage.setItem('clearedStageNum', stageNum.toString());
