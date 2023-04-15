@@ -1,11 +1,21 @@
+import useSpinner from 'hooks/useSpinner';
 import React from 'react';
-import SpinnerSVG from './logo.svg';
+import styled from 'styled-components';
+
+const SpinnerLayout = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Loading = () => {
+  const { Spinner, register } = useSpinner(true);
   return (
-    <div>
-      <img src={SpinnerSVG} />
-    </div>
+    <SpinnerLayout>
+      <Spinner {...register}></Spinner>
+    </SpinnerLayout>
   );
 };
 

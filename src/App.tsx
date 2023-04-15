@@ -9,7 +9,6 @@ import Login from 'components/Login';
 import SignUp from 'components/SignUp';
 import Loading from 'components/Loading';
 import { AppContextProvider } from 'hooks/useAppContext';
-import logo from './logo.svg';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +18,10 @@ const queryClient = new QueryClient({
   },
 });
 
-const AppRoot = styled.div``;
+const AppRoot = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 function App() {
   return (

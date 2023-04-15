@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserDto } from 'types';
 import customAxios from 'utils/customAxios';
 import { toast } from 'react-hot-toast';
+import useSpinner from 'hooks/useSpinner';
 
 interface IFormInput {
   firstName: String;
@@ -22,7 +23,10 @@ const SignUp = () => {
     username: string;
     password: string;
   }>({ firstName: '', lastName: '', username: '', password: '' });
+  const { setShow, Spinner, register: registerSpinner } = useSpinner(false);
+
   const signUp: SubmitHandler<IFormInput> = async (e) => {
+    setShow(true);
     try {
       await customAxios.post<UserDto>('/signup', {
         ...e,
@@ -35,6 +39,8 @@ const SignUp = () => {
         return;
       }
       console.error(e);
+    } finally {
+      setShow(false);
     }
   };
   return (
@@ -73,6 +79,7 @@ const SignUp = () => {
         <input type="submit" value="가입"></input>
       </form>
       <button onClick={() => navigate(-1)}>뒤로 가기</button>
+      <Spinner {...registerSpinner} />
     </div>
   );
 };

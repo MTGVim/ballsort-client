@@ -1,10 +1,11 @@
 import { isAxiosError } from 'axios';
-import React from 'react';
+import useSpinner from 'hooks/useSpinner';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { CommonResponseDto } from '../types';
-import customAxios from '../utils/customAxios';
+import { CommonResponseDto } from 'types';
+import customAxios from 'utils/customAxios';
 
 interface IFormInput {
   username: String;
@@ -14,7 +15,9 @@ interface IFormInput {
 const Login = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
+  const { Spinner, register: registerSpinner, setShow } = useSpinner(false);
   const login: SubmitHandler<IFormInput> = async (e) => {
+    setShow(true);
     try {
       await customAxios.post<CommonResponseDto>('/login', {
         ...e,
@@ -27,6 +30,8 @@ const Login = () => {
         return;
       }
       console.log(e);
+    } finally {
+      setShow(false);
     }
   };
   return (
@@ -52,6 +57,7 @@ const Login = () => {
         <button type="submit">로그인</button>
       </form>
       <button onClick={() => navigate('/signup')}>가입하러 가기</button>
+      <Spinner {...registerSpinner} />
     </div>
   );
 };
