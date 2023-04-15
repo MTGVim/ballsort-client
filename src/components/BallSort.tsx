@@ -126,7 +126,6 @@ const BallSort = () => {
               onClick={() => handleStackClick(stackIdx)}
             >
               {ballStack.map((ball, ballIdx) => {
-                const ballTop = ballStack[ballStack.length - 1];
                 return (
                   <Ball
                     key={ball.toString() + ballIdx}
