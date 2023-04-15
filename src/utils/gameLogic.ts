@@ -2,8 +2,6 @@ import seedrandom from 'seedrandom';
 import { Stage } from 'types';
 // 볼 색상 생성용 의사랜덤 함수
 const colorPrng = seedrandom('abcd');
-// 스테이지 생성용 의사랜덤 함수
-const stagePrng = seedrandom('egfh');
 
 export const BallColors: string[] = [];
 const stages: Stage[] = [];
@@ -118,6 +116,9 @@ export function getStage(stageNum: number) {
   if (stages[stageNum]) {
     return stages[stageNum];
   }
+
+  // 스테이지 생성용 의사랜덤 함수
+  const stagePrng = seedrandom(stageNum.toString());
 
   const totalStackCnt = Math.min(stageNum + 6, 10);
   const emptyStackCnt = 2;
