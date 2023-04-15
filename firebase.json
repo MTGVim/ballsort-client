@@ -3,7 +3,7 @@
     "public": "build",
     "headers": [
       {
-        "source": "**/*.html",
+        "source": "index.html",
         "headers": [
           {
             "key": "Cache-Control",
@@ -30,6 +30,7 @@
         ]
       }
     ],
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
   }
 }
