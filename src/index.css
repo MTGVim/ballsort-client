@@ -19,6 +19,31 @@ code {
     monospace;
 }
 
+button {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
 * {
+  -webkit-tap-highlight-color: transparent;
   box-sizing: border-box;
+}
+
+/* 이미지는 드래그 불가 */
+img {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  /** vertical-align: baseline 라서, 아래 간격 생기는 것 방지 */
+  vertical-align: middle;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
