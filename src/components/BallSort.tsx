@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { toast } from 'react-hot-toast';
-import seedrandom from 'seedrandom';
+
 import {
   BallColors,
   getPickableBallIdxs,
   getStage,
   isStageClear,
   moveMatchedBalls,
-  verifyStage,
 } from 'utils/gameLogic';
 import { Stage } from 'types';
+import useAppContext from 'hooks/useAppContext';
 
+const BallSortFrame = styled.div`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+`;
 const BallStackList = styled.div`
   background: #999292;
   display: flex;
@@ -58,16 +63,24 @@ const Ball = styled.div<{ ball: number; picked: boolean }>`
 
 const BallSort = () => {
   const [selectedStackIdx, setSelectedStackIdx] = useState<number | null>(null);
-  const [stageNum, setStatgeNum] = useState<number>(0);
+  const [stageNum, setStatgeNum] = useState<number>(
+    Number(localStorage.getItem('clearedStageNum') || -1) + 1
+  );
   const [stageState, setStageState] = useState<Stage>(getStage(stageNum));
+  const [moveCnt, setMoveCnt] = useState<number>(0);
+  const { user } = useAppContext();
 
   useEffect(() => {
     if (isStageClear(stageState)) {
       toast.success('Stage Cleared! 🎉');
-      setTimeout(() => {
+      const handle = setTimeout(() => {
         setStageState(getStage(stageNum));
+        setMoveCnt(0);
         setStatgeNum((prev) => prev + 1);
-      }, 5e3);
+      }, 3e3);
+      return () => {
+        clearTimeout(handle);
+      };
     }
   }, [stageState]);
 
@@ -84,9 +97,12 @@ const BallSort = () => {
         !moveMatchedBalls(newState[selectedStackIdx], newState[targetStackIdx])
       ) {
         toast.error('Cannot move to there');
+        setSelectedStackIdx(null);
+        return;
       }
       setStageState([...newState]);
       setSelectedStackIdx(null);
+      setMoveCnt((prev) => prev + 1);
       return;
     }
 
@@ -97,32 +113,37 @@ const BallSort = () => {
   };
 
   return (
-    <BallStackList key={stageNum}>
-      {stageState.map((ballStack, stackIdx) => {
-        const isStackSelected = selectedStackIdx === stackIdx;
-        return (
-          <BallStack
-            key={stackIdx.toString()}
-            selected={isStackSelected}
-            onClick={() => handleStackClick(stackIdx)}
-          >
-            {ballStack.map((ball, ballIdx) => {
-              const ballTop = ballStack[ballStack.length - 1];
-              return (
-                <Ball
-                  key={ball.toString() + ballIdx}
-                  ball={ball}
-                  picked={
-                    isStackSelected &&
-                    getPickableBallIdxs(ballStack).includes(ballIdx)
-                  }
-                />
-              );
-            })}
-          </BallStack>
-        );
-      })}
-    </BallStackList>
+    <BallSortFrame>
+      <BallStackList key={stageNum}>
+        {stageState.map((ballStack, stackIdx) => {
+          const isStackSelected = selectedStackIdx === stackIdx;
+          return (
+            <BallStack
+              key={stackIdx.toString()}
+              selected={isStackSelected}
+              onClick={() => handleStackClick(stackIdx)}
+            >
+              {ballStack.map((ball, ballIdx) => {
+                const ballTop = ballStack[ballStack.length - 1];
+                return (
+                  <Ball
+                    key={ball.toString() + ballIdx}
+                    ball={ball}
+                    picked={
+                      isStackSelected &&
+                      getPickableBallIdxs(ballStack).includes(ballIdx)
+                    }
+                  />
+                );
+              })}
+            </BallStack>
+          );
+        })}
+      </BallStackList>
+      <div>Stage: {stageNum}</div>
+      <div>moveCnt: {moveCnt}</div>
+      <div>mode: {user ? 'online' : 'offline'}</div>
+    </BallSortFrame>
   );
 };
 

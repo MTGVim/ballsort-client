@@ -39,7 +39,11 @@ function App() {
           </QueryClientProvider>
         </AppContextProvider>
       </Suspense>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          position: 'top-center',
+        }}
+      />
     </AppRoot>
   );
 }

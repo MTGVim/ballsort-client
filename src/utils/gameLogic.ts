@@ -1,7 +1,7 @@
 import seedrandom from 'seedrandom';
 import { Stage } from 'types';
 
-seedrandom('tiger.yoo', { global: true });
+seedrandom('abcd', { global: true });
 
 export const BallColors: string[] = [];
 
@@ -92,11 +92,6 @@ export function moveMatchedBalls(
     fromStack.length === 0 ? null : fromStack[fromStack.length - 1];
   const toTop = toStack.length === 0 ? null : toStack[toStack.length - 1];
 
-  const canMove = toTop === null || fromTop === toTop;
-
-  if (!canMove) {
-    return false;
-  }
   const balls = [];
   for (let i = fromStack.length - 1; i >= 0; i--) {
     if (fromStack[i] !== fromTop) {
@@ -106,6 +101,11 @@ export function moveMatchedBalls(
   }
 
   const moveCnt = Math.min(MaxBallStackLength - toStack.length, balls.length);
+  const canMove = (toTop === null || fromTop === toTop) && moveCnt > 0;
+  if (!canMove) {
+    return false;
+  }
+
   for (let i = 0; i < moveCnt; i++) {
     moveBall(fromStack, toStack);
   }
