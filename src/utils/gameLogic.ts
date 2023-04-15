@@ -1,12 +1,15 @@
 import seedrandom from 'seedrandom';
 import { Stage } from 'types';
-
-seedrandom('abcd', { global: true });
+// 볼 색상 생성용 의사랜덤 함수
+const colorPrng = seedrandom('abcd');
+// 스테이지 생성용 의사랜덤 함수
+const stagePrng = seedrandom('egfh');
 
 export const BallColors: string[] = [];
+const stages: Stage[] = [];
 
 for (let i = 0; i < 100; i++) {
-  let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+  let color = '#' + Math.floor(colorPrng() * 16777215).toString(16);
   BallColors.push(color);
 }
 
@@ -110,13 +113,17 @@ export function moveMatchedBalls(
   return true;
 }
 
-/** 다음 스테이지 생성 */
+/** 다음 스테이지 생성. */
 export function getStage(stageNum: number) {
+  if (stages[stageNum]) {
+    return stages[stageNum];
+  }
+
   const totalStackCnt = Math.min(stageNum + 6, 10);
   const emptyStackCnt = 2;
   const ballColorsCnt = totalStackCnt - emptyStackCnt;
 
-  const stacks = [
+  const stage = [
     [],
     [],
     ...Array.from({ length: ballColorsCnt }).map((_, ballColorIdx) =>
@@ -126,15 +133,17 @@ export function getStage(stageNum: number) {
 
   const shuffle = () => {
     for (let i = 0; i < 100; ++i) {
-      const fromIdx = Math.floor(Math.random() * stacks.length);
-      const toIdx = Math.floor(Math.random() * stacks.length);
-      moveBall(stacks[fromIdx], stacks[toIdx]);
+      const fromIdx = Math.floor(stagePrng() * stage.length);
+      const toIdx = Math.floor(stagePrng() * stage.length);
+      while (moveBall(stage[fromIdx], stage[toIdx])) {
+        // repeat
+      }
     }
   };
 
   shuffle();
-
-  return stacks;
+  stages[stageNum] = stage;
+  return stage;
 }
 
 /** 스택에서 한번에 집을 수 있는 볼 idx 목록 반환 */
