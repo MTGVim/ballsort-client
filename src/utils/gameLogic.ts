@@ -135,6 +135,7 @@ function shuffle(stage: Stage, prng: seedrandom.PRNG) {
 
 /** 클리어 가능한 스테이지인지 확인 */
 function isSolvable(stage: Stage) {
+  let tryCnt = 0;
   function isSolvableRecur(candStage: Stage, paths: [number, number][]) {
     if (paths.length > MaxSolvableMoveCnt) {
       return false;
@@ -142,6 +143,10 @@ function isSolvable(stage: Stage) {
     if (isStageClear(candStage)) {
       return true;
     }
+    if (tryCnt > 1000) {
+      return false;
+    }
+    tryCnt++;
     for (let from = 0; from < candStage.length; ++from) {
       for (let to = 0; to < candStage.length; ++to) {
         const matchedCnt = moveBallsMatching(candStage, from, to);
