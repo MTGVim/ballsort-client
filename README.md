@@ -40,10 +40,12 @@
     - [x] 생성
     - [x] 클리어 가능함을 보장
       - [x] 클리어 상태에서 섞도록 구현
-    - [ ] 난이도 추론
+    - [ ] 난이도
       - [ ] 생성 시 유효했던 moveBalls 횟수로 판단?
+      - [ ] 난이도가 점진적으로 어려워지도록 하기 (병 갯수는 최대 10개임)
     - [ ] 무한모드
       - [ ] 스테이지 번호 대신 무엇으로 분류할 것인가
+         - [ ] 어떤것을 시드로 쓸 것인가..
 - [ ] demo
 
 ## Getting Started <a name = "getting_started"></a>
@@ -76,4 +78,4 @@ yarn start
 
 ## DEMO
 
-WIP
+[DEMO](https://ballsorting.web.app/)
