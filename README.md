@@ -1,3 +1,6 @@
+
+<img src="https://github.com/MTGVim/ballsort-client/blob/main/src/assets/logo.png" width="200">
+
 # BallSort (client)
 
 ## Table of Contents
