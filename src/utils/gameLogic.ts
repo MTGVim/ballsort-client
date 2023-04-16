@@ -13,8 +13,6 @@ for (let i = 0; i < 100; i++) {
 
 export const MaxBallStackLength = 4;
 
-const MaxSolvableMoveCnt = 40;
-
 export const verifyStage = (
   stage: Stage
 ): {
@@ -78,22 +76,42 @@ export function isStageClear(stageState: Stage) {
   return false;
 }
 
-function moveBallWithoutMatching(
-  fromStack: Stage[number],
-  toStack: Stage[number],
+function moveBallsReverse(
+  stage: Stage,
+  fromStackIdx: number,
+  toStackIdx: number,
   moveCnt: number
 ) {
-  const fromTop = fromStack.length > 0 ? fromStack[fromStack.length - 1] : null;
-  if (fromTop === null || toStack.length + moveCnt > MaxBallStackLength) {
-    return false;
+  const fromStack = stage[fromStackIdx];
+  const fromTop =
+    fromStack.length === 0 ? null : fromStack[fromStack.length - 1];
+  const toStack = stage[toStackIdx];
+
+  if (fromStackIdx === toStackIdx) {
+    return 0;
   }
-  for (let i = 0; i < moveCnt; ++i) {
+
+  const balls = [];
+  for (let i = fromStack.length - 1; i >= 0; i--) {
+    // 꺼낼 볼 밑이 없거나, 꺼낼 볼과 같은 색이어야 함
+    if (i !== 0 && fromStack[i - 1] !== fromTop) {
+      break;
+    }
+    balls.push(fromStack[i]);
+  }
+  const movableCnt = Math.min(
+    MaxBallStackLength - toStack.length,
+    balls.length
+  );
+  const movedCnt = Math.min(moveCnt, movableCnt);
+
+  for (let i = 0; i < movedCnt; i++) {
     toStack.push(fromStack.pop()!);
   }
-  return true;
+  return movedCnt;
 }
 
-export function moveBallsMatching(
+export function moveBalls(
   stage: Stage,
   fromStackIdx: number,
   toStackIdx: number
@@ -128,44 +146,9 @@ function shuffle(stage: Stage, prng: seedrandom.PRNG) {
   for (let i = 0; i < 100; ++i) {
     const fromIdx = Math.floor(prng() * shuffledStage.length);
     const toIdx = Math.floor(prng() * shuffledStage.length);
-    moveBallWithoutMatching(shuffledStage[fromIdx], shuffledStage[toIdx], 1);
+    moveBallsReverse(shuffledStage, fromIdx, toIdx, 1);
   }
   return shuffledStage;
-}
-
-/** 클리어 가능한 스테이지인지 확인 */
-function isSolvable(stage: Stage) {
-  let tryCnt = 0;
-  function isSolvableRecur(candStage: Stage, paths: [number, number][]) {
-    if (paths.length > MaxSolvableMoveCnt) {
-      return false;
-    }
-    if (isStageClear(candStage)) {
-      return true;
-    }
-    if (tryCnt > 1000) {
-      return false;
-    }
-    tryCnt++;
-    for (let from = 0; from < candStage.length; ++from) {
-      for (let to = 0; to < candStage.length; ++to) {
-        const matchedCnt = moveBallsMatching(candStage, from, to);
-        if (matchedCnt) {
-          paths.push([from, to]);
-          if (isSolvableRecur(candStage, paths)) {
-            return true;
-          } else {
-            paths.pop();
-            moveBallWithoutMatching(candStage[to], candStage[from], matchedCnt);
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  const candStage = JSON.parse(JSON.stringify(stage));
-  return isSolvableRecur(candStage, []);
 }
 
 /** 다음 스테이지 생성. */
@@ -189,9 +172,9 @@ export function getStage(stageNum: number) {
   const stagePrng = seedrandom(stageNum.toString());
 
   // 풀 수 있는 스테이지가 나올 때 까지 섞음
-  do {
-    stage = shuffle(stage, stagePrng);
-  } while (!isSolvable(stage));
+  // do {
+  stage = shuffle(stage, stagePrng);
+  // } while (!isSolvable(stage));
 
   stages[stageNum] = stage;
   return stage;

@@ -7,7 +7,7 @@ import {
   getPickableBallIdxs,
   getStage,
   isStageClear,
-  moveBallsMatching,
+  moveBalls,
 } from 'utils/gameLogic';
 import { Stage } from 'types';
 import useAppContext from 'hooks/useAppContext';
@@ -95,7 +95,7 @@ const BallSort = () => {
     // 볼 삽입
     if (selectedStackIdx !== null) {
       const newState: Stage = JSON.parse(JSON.stringify(stageState));
-      if (!moveBallsMatching(newState, selectedStackIdx, targetStackIdx)) {
+      if (!moveBalls(newState, selectedStackIdx, targetStackIdx)) {
         toast.error('Cannot move to there');
         setSelectedStackIdx(null);
         return;
