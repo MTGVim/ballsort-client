@@ -53,8 +53,6 @@ MERN 스택에 관심이 생겨 토이 프로젝트에 적용해 보고 싶던 �
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
 Wanna use online service? go and see BallSort(Server) repo's README.md
